@@ -6,6 +6,7 @@ export default class Storage {
   private static instance: Storage;
 
   protected readonly storage: AsyncStorageStatic;
+
   private readonly prefix = APP_STORAGE_PREFIX;
 
   private constructor() {
@@ -20,15 +21,9 @@ export default class Storage {
     return Storage.instance;
   }
 
-  getItem = async (key: string) => {
-    return await this.storage.getItem(this.prefix + key);
-  };
+  getItem = async (key: string) => await this.storage.getItem(this.prefix + key);
 
-  setItem = async (key: string, value: string) => {
-    return this.storage.setItem(this.prefix + key, value);
-  };
+  setItem = async (key: string, value: string) => this.storage.setItem(this.prefix + key, value);
 
-  clear = async () => {
-    return this.storage.clear();
-  };
+  clear = async () => this.storage.clear();
 }

@@ -2,10 +2,11 @@ import { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
 
 import { StorageProvider as Storage, HttpClient } from 'utils';
 
-export const BASE_URL = '';
+export const BASE_URL = 'http://localhost:3001/';
 
 class Api extends HttpClient {
   private static instance: Api;
+
   private readonly storage = Storage.getInstance();
 
   private constructor() {
@@ -32,26 +33,9 @@ class Api extends HttpClient {
 
   private handleResponse = ({ data }: AxiosResponse) => data;
 
-  protected handleError = (error: AxiosError) => {
-    if (
-      error?.response?.status === 401 &&
-      error.response.data?.detail === 'Signature has expired.'
-    ) {
-      // reset authentication state
-      // show toast error
-    }
-    return Promise.reject(error);
-  };
+  protected handleError = (error: AxiosError) => Promise.reject(error);
 
-  private handleRequest = async (config: AxiosRequestConfig) => {
-    const token = await this.storage.getItem('userToken');
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  };
+  private handleRequest = async (config: AxiosRequestConfig) => config;
 
   get post() {
     return this.http.post;

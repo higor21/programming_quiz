@@ -1,21 +1,29 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { BrowserRouter as RouterProvider, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as RouterProvider,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 
 import store, { persistor } from 'store/store';
 import { ConfigurationPage, QuestionsPage, ResultPage } from 'pages';
+import { RouteNames } from './utils/helpers';
 
-const App = () => {
-  return (
-    <Switch>
-      <Route exact={true} path="/configuration" component={ConfigurationPage} />
-      <Route exact={true} path="/questions" component={QuestionsPage} />
-      <Route exact={true} path="/result" component={ResultPage} />
-      <Redirect to="/configuration" />
-    </Switch>
-  );
-};
+const App = () => (
+  <Switch>
+    <Route
+      exact
+      path={RouteNames.configuration}
+      component={ConfigurationPage}
+    />
+    <Route exact path={RouteNames.questions} component={QuestionsPage} />
+    <Route exact path={RouteNames.result} component={ResultPage} />
+    <Redirect to={RouteNames.configuration} />
+  </Switch>
+);
 
 const AppBootstrap = () => (
   <Provider store={store}>
